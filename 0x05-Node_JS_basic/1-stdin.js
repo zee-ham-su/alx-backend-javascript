@@ -1,11 +1,11 @@
-const readlineInterface = require('readline').createInterface({
+const readline = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-readlineInterface.question('Welcome to Holberton School, what is your name?\n', (name) => {
+readline.question('Welcome to Holberton School, what is your name?\n', (name) => {
   console.log(`Your name is: ${name}`);
-  readlineInterface.close();
+  readline.close();
 });
 
 process.on('exit', () => {
