@@ -5,35 +5,43 @@ const app = express();
 
 function countStudents(fileName) {
   return new Promise((resolve, reject) => {
+    if (!fileName) {
+      reject(new Error('Cannot load the database'));
+    }
+
     readFile(fileName, 'utf8')
       .then((data) => {
-        const students = {};
-        const fields = {};
-        let studentCount = 0;
+        const reportParts = [];
+        const lines = data.trim().split('\n');
+        const studentGroups = {};
+        const dbFieldNames = lines[0].split(',');
+        const studentPropNames = dbFieldNames.slice(0, dbFieldNames.length - 1);
 
-        const lines = data.split('\n').filter((line) => line.trim() !== '');
-        lines.forEach((line) => {
-          const studentData = line.split(',');
-          const fieldName = studentData[3];
+        for (const line of lines.slice(1)) {
+          const studentRecord = line.split(',');
+          const studentPropValues = studentRecord.slice(0, studentRecord.length - 1);
+          const field = studentRecord[studentRecord.length - 1];
 
-          if (!students[fieldName]) {
-            students[fieldName] = [];
-            fields[fieldName] = 0;
+          if (!Object.keys(studentGroups).includes(field)) {
+            studentGroups[field] = [];
           }
 
-          students[fieldName].push(studentData[0]);
-          fields[fieldName] += 1;
-          studentCount += 1;
-        });
+          const studentEntry = {};
+          studentPropNames.forEach((propName, idx) => {
+            studentEntry[propName] = studentPropValues[idx];
+          });
 
-        const l = studentCount - 1;
-        let output = `Number of students: ${l}\n`;
-        for (const [key, value] of Object.entries(fields)) {
-          if (key !== 'field') {
-            output += `Number of students in ${key}: ${value}. List: ${students[key].join(', ')}\n`;
-          }
+          studentGroups[field].push(studentEntry);
         }
-        resolve(output);
+
+        const totalStds = Object.values(studentGroups).reduce((prev, cur) => prev + cur.length, 0);
+        reportParts.push(`Number of students: ${totalStds}`);
+
+        for (const [field, group] of Object.entries(studentGroups)) {
+          reportParts.push(`Number of students in ${field}: ${group.length}. List: ${group.map((student) => student.firstname).join(', ')}`);
+        }
+
+        resolve(reportParts.join('\n'));
       })
       .catch(() => {
         reject(new Error('Cannot load the database'));
@@ -41,22 +49,23 @@ function countStudents(fileName) {
   });
 }
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   res.send('Hello Holberton School!');
 });
 
-app.get('/students', (req, res) => {
+app.get('/students', (_, res) => {
   const fileName = 'database.csv';
   countStudents(fileName)
-    .then((output) => {
-      res.send(`This is the list of our students\n${output}`);
+    .then((report) => {
+      res.setHeader('Content-Type', 'text/plain');
+      res.send(`This is the list of our students\n${report}`);
     })
     .catch((error) => {
       res.status(500).send(`Error: ${error.message}`);
     });
 });
 
-app.use((req, res) => {
+app.use((_, res) => {
   res.status(404).send('404 Not Found');
 });
 
