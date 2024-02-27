@@ -1,58 +1,57 @@
 const express = require('express');
-const { readFile } = require('fs').promises;
+const { readFile } = require('fs');
 
 const app = express();
 
-function countStudents(fileName) {
-  return new Promise((resolve, reject) => {
-    readFile(fileName, 'utf8')
-      .then((data) => {
-        const students = {};
-        const fields = {};
-        let studentCount = 0;
+function countStudents(fileName, callback) {
+  const students = {};
+  const fields = {};
+  let studentCount = 0;
 
-        const lines = data.split('\n').filter((line) => line.trim() !== '');
-        lines.forEach((line) => {
-          const studentData = line.split(',');
-          const fieldName = studentData[3];
+  readFile(fileName, 'utf8', (err, data) => {
+    if (err) {
+      callback(err, null);
+      return;
+    }
 
-          if (!students[fieldName]) {
-            students[fieldName] = [];
-            fields[fieldName] = 0;
-          }
-
-          students[fieldName].push(studentData[0]);
-          fields[fieldName] += 1;
-          studentCount += 1;
-        });
-
-        const l = studentCount - 1;
-        let output = `Number of students: ${l}\n`;
-        for (const [key, value] of Object.entries(fields)) {
-          if (key !== 'field') {
-            output += `Number of students in ${key}: ${value}. List: ${students[key].join(', ')}\n`;
-          }
+    let output = '';
+    const lines = data.split('\n');
+    lines.forEach((line) => {
+      if (line) {
+        studentCount += 1;
+        const field = line.split(',');
+        if (students[field[3]]) {
+          students[field[3]].push(field[0]);
+        } else {
+          students[field[3]] = [field[0]];
+          fields[field[3]] = 0;
         }
-        resolve(output);
-      })
-      .catch(() => {
-        reject(new Error('Cannot load the database'));
-      });
+        fields[field[3]] += 1;
+      }
+    });
+    const l = studentCount - 1;
+    output += `Number of students: ${l}\n`;
+    for (const [key, value] of Object.entries(fields)) {
+      if (key !== 'field') {
+        output += `Number of students in ${key}: ${value}. List: ${students[key].join(', ')}\n`;
+      }
+    }
+    callback(null, output);
   });
 }
 
-app.get('/', (request, response) => {
-  response.send('Hello Holberton School!');
+app.get('/', (req, res) => {
+  res.send('Hello Holberton School!');
 });
 
-app.get('/students', (request, response) => {
-  countStudents(process.argv[2].toString())
-    .then((output) => {
-      response.send(['This is the list of our students', output].join('\n'));
-    })
-    .catch(() => {
-      response.send('This is the list of our students\nCannot load the database');
-    });
+app.get('/students', (req, res) => {
+  countStudents(process.argv[2].toString(), (err, output) => {
+    if (err) {
+      res.send('This is the list of our students\nCannot load the database');
+    } else {
+      res.send(['This is the list of our students', output].join('\n'));
+    }
+  });
 });
 
 
