@@ -8,7 +8,6 @@ function countStudents(fileName) {
   try {
     const data = fs.readFileSync(fileName, 'utf8');
     const lines = data.split('\n').filter((line) => line.trim() !== '');
-    const headers = lines[0].split(',');
 
     lines.slice(1).forEach((line) => {
       const studentData = line.split(',');
@@ -20,8 +19,8 @@ function countStudents(fileName) {
       }
 
       students[fieldName].push(studentData[0]);
-      fields[fieldName]++;
-      totalStudents++;
+      fields[fieldName] += 1;
+      totalStudents += 1;
     });
 
     console.log(`Number of students: ${totalStudents}`);
