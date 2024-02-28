@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const calculateNumber = require('./1-calcul');
+const calculateNumber = require('./2-calcul_chai');
 const { describe, it } = require("mocha");
 
 describe("calculateNumber()", function () {
