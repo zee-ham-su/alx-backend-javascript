@@ -54,19 +54,11 @@ app.get('/', (_, res) => {
 });
 
 app.get('/students', (_, res) => {
-  const fileName = 'DB_FILE';
-  countStudents(fileName)
-    .then((report) => {
-      res.setHeader('Content-Type', 'text/plain');
-      res.send(`This is the list of our students\n${report}`);
-    })
-    .catch((error) => {
-      res.status(500).send(`Error: ${error.message}`);
-    });
-});
-
-app.use((_, res) => {
-  res.status(404).send('404 Not Found');
+  countStudents(process.argv[2].toString()).then((output) => {
+    res.send(['This is the list of our students', output].join('\n'));
+  }).catch(() => {
+    res.send('This is the list of our students\nCannot load the database');
+  });
 });
 
 app.listen(1245, '127.0.0.1', () => {
