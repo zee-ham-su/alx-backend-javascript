@@ -1,16 +1,29 @@
+function sum(a, b) {
+    return Math.round(a) + Math.round(b);
+}
+
+function subtract(a, b) {
+    return Math.round(a) - Math.round(b);
+}
+
+function divide(a, b) {
+    if (Math.round(b) === 0) {
+        return "Error";
+    } else {
+        return Math.round(a) / Math.round(b);
+    }
+}
+
 function calculateNumber(type, a, b) {
     switch (type) {
         case 'SUM':
-            return Math.round(a) + Math.round(b);
+            return sum(a, b);
         case 'SUBTRACT':
-            return Math.round(a) - Math.round(b);
+            return subtract(a, b);
         case 'DIVIDE':
-            if (Math.round(b) === 0) {
-                return 'Error';
-            }
-            return Math.round(a) / Math.round(b);
+            return divide(a, b);
         default:
-            return 'Error';
+            throw new Error(`Unsupported operation: ${type}`);
     }
 }
 
