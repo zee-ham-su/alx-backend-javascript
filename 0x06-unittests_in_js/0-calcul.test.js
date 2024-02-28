@@ -13,11 +13,13 @@ describe('calculateNumber', () => {
         assert.strictEqual(calculateNumber(2.3, 5), 7);
         assert.strictEqual(calculateNumber(2.6, 5), 8);
         assert.strictEqual(calculateNumber(1.6, 5.8), 8);
+        assert.strictEqual(calculateNumber(1.5, 4.8), 7);
     });
 
     it('checking if a is not rounded and b is rounded', () => {
         assert.strictEqual(calculateNumber(1, 4.7), 6);
         assert.strictEqual(calculateNumber(1, 6.5), 8);
         assert.strictEqual(calculateNumber(1.1, 3.5), 5);
+        assert.strictEqual(calculateNumber(1.2, 3.5), 5);
     });
 });
