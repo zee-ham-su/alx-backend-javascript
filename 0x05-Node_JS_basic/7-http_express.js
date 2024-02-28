@@ -54,7 +54,7 @@ app.get('/', (_, res) => {
 });
 
 app.get('/students', (_, res) => {
-  const fileName = 'database.csv';
+  const fileName = 'DB_FILE';
   countStudents(fileName)
     .then((report) => {
       res.setHeader('Content-Type', 'text/plain');
