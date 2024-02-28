@@ -1,16 +1,18 @@
 {
   "name": "0x06-unittests_in_js",
   "version": "1.0.0",
-  "description": "## Resources - Read or watch:",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha '*.test.js'"
+    "test": "mocha --require @babel/register '*.test.js'"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "chai": "^5.1.0",
-    "mocha": "^10.3.0"
+  "dependencies": {
+    "mocha": "^10.2.0"
   },
-  "type": "module"
+  "devDependencies": {
+    "@babel/register": "^7.23.7",
+    "chai": "^4.3.7"
+  }
 }
