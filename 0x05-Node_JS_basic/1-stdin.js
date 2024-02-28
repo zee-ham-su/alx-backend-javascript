@@ -3,7 +3,7 @@ process.stdout.write('Welcome to Holberton School, what is your name?\n');
 if (process.stdin.isTTY) {
   process.stdin.on('data', (input) => {
     const data = input.toString().trim();
-    process.stdout.write(`Your name is: ${data}\n`);
+    process.stdout.write(`Your name is: ${data}`);
     process.exit();
   });
 } else {
