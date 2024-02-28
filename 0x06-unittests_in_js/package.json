@@ -4,9 +4,7 @@
   "description": "## Resources - Read or watch:",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "lint": "./node_modules/.bin/eslint **/*.js",
-    "check-lint": "lint [0-9]*.js"
+    "test": "mocha '*.test.js'"
   },
   "author": "",
   "license": "ISC",
