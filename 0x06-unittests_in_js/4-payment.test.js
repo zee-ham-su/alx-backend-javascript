@@ -12,7 +12,7 @@ describe("sendPaymentRequestToApi", function () {
 
         sendPaymentRequestToApi(100, 20);
 
-        assert(spy.withArgs("The total is: 10").calledOnce);
-        assert(stub.withArgs("SUM", 100, 20).calledOnce);
+        assert(consoleSpy.withArgs("The total is: 10").calledOnce);
+        assert(calculateNumberStub.withArgs("SUM", 100, 20).calledOnce);
     });
 });
