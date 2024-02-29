@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@babel/register": "^7.23.7",
-    "chai": "^4.3.7"
+    "chai": "^4.4.1",
+    "sinon": "^17.0.1"
   }
 }
