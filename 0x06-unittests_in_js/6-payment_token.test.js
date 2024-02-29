@@ -1,5 +1,5 @@
 const { describe, it } = require("mocha");
-const expect = require("assert");
+const { expect } = require("chai");
 const getPaymentTokenFromAPI = require("./6-payment_token");
 
 describe("getPaymentTokenFromAPI", function () {
@@ -8,6 +8,7 @@ describe("getPaymentTokenFromAPI", function () {
             .then((data) => {
                 expect(data).to.have.property('data');
                 done();
-            });
+            })
+            .catch(done);
     });
 });
