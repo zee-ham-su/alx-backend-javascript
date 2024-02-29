@@ -1,30 +1,23 @@
-function sum(a, b) {
-    return Math.round(a) + Math.round(b);
-}
-
-function subtract(a, b) {
-    return Math.round(a) - Math.round(b);
-}
-
-function divide(a, b) {
-    if (Math.round(b) === 0) {
-        return "Error";
-    } else {
-        return Math.round(a) / Math.round(b);
-    }
-}
-
 function calculateNumber(type, a, b) {
+    const an = Math.round(a);
+    const bn = Math.round(b);
+    let c = 0;
     switch (type) {
         case 'SUM':
-            return sum(a, b);
+            c = an + bn;
+            break;
         case 'SUBTRACT':
-            return subtract(a, b);
+            c = an - bn;
+            break;
         case 'DIVIDE':
-            return divide(a, b);
-        default:
-            throw new Error(`Unsupported operation: ${type}`);
+            if (bn === 0) {
+                c = "Error";
+            } else {
+                c = an / bn;
+            }
+            break;
     }
+    return c;
 }
 
 module.exports = calculateNumber;
