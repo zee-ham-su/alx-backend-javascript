@@ -1,5 +1,5 @@
 class Utils {
-    calculateNumber(type, a, b) {
+    static calculateNumber(type, a, b) {
         switch (type) {
             case 'SUM':
                 return Math.round(a) + Math.round(b);
