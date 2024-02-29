@@ -5,7 +5,7 @@ const sinon = require("sinon");
 const sendPaymentRequestToApi = require("./4-payment");
 
 describe("sendPaymentRequestToApi", function () {
-    it("should stub Utils.calculateNumber and log the correct message", function () {
+    it("should be sure that Utils.calculateNumber is stubbed", function () {
         const calculateNumberStub = sinon.stub(Utils, "calculateNumber").returns(10);
 
         const consoleSpy = sinon.spy(console, "log");
