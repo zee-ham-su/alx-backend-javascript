@@ -16,7 +16,5 @@ describe("sendPaymentRequestToApi", function () {
 
         assert(consoleSpy.calledOnceWithExactly("The total is: 10"));
 
-        calculateNumberStub.restore();
-        consoleSpy.restore();
     });
 });
