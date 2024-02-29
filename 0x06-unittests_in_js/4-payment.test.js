@@ -2,7 +2,7 @@ const Utils = require("./utils");
 const assert = require("assert");
 const { describe, it } = require("mocha");
 const sinon = require("sinon");
-const sendPaymentRequestToApi = require("./4-payment.js");
+const sendPaymentRequestToApi = require("./4-payment");
 
 describe("sendPaymentRequestToApi", function () {
     it("should stub Utils.calculateNumber and log the correct message", function () {
@@ -16,5 +16,7 @@ describe("sendPaymentRequestToApi", function () {
 
         assert(consoleSpy.calledOnceWithExactly("The total is: 10"));
 
+        calculateNumberStub.restore();
+        consoleSpy.restore();
     });
 });
