@@ -1,5 +1,5 @@
 const { describe, it } = require("mocha");
-const assert = require("assert");
+const expect = require("assert");
 const getPaymentTokenFromAPI = require("./6-payment_token");
 
 describe("getPaymentTokenFromAPI", function () {
